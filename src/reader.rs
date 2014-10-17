@@ -5,7 +5,7 @@ use serialize::Decodable;
 
 use buffered::BufferedReader;
 use {
-    ByteString, CsvResult, Decoded,
+    ByteString, CsvResult, Decoded, IntoVector,
     Error, ErrDecode, ErrIo, ErrParse,
     ParseError,
     ParseErrorKind, UnequalLengths,
@@ -349,8 +349,8 @@ impl Reader<MemReader> {
     }
 
     /// Creates a CSV reader for an in memory buffer of bytes.
-    pub fn from_bytes<V: AsSlice<u8>>(bytes: V) -> Reader<MemReader> {
-        Reader::from_reader(MemReader::new(bytes.as_slice().to_vec()))
+    pub fn from_bytes<V: IntoVector<u8>>(bytes: V) -> Reader<MemReader> {
+        Reader::from_reader(MemReader::new(bytes.into_vec()))
     }
 }
 
